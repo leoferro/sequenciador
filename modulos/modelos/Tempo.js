@@ -6,7 +6,9 @@ class Tempo {
         this.sonsParaTocarLista = []
         this.funcaoParaTocarSons = funcaoParaTocarSons
         this.funcaoParaPararSons = funcaoParaPararSons
-        this.tocando=false
+        this.tocando = false
+        this.gravacao = []
+        this.gravarAtivado = false
     }
 
     //adicionar instrumentos na lista
@@ -16,7 +18,7 @@ class Tempo {
 
     descadastrarInstrumento(instrumento) {
         this.sonsParaTocarLista = this.sonsParaTocarLista.filter((InstrumentoNaLista) => {
-            if (instrumento!=InstrumentoNaLista){
+            if (instrumento != InstrumentoNaLista) {
                 return InstrumentoNaLista
             }
         })
@@ -67,35 +69,46 @@ class Tempo {
         this.dispararFuncoesParar()
     }
 
-    conferirSeTemInstrumentos(){
-        if (this.sonsParaTocarLista.length==0){
+    conferirSeTemInstrumentos() {
+        if (this.sonsParaTocarLista.length == 0) {
             this.pararDeContar()
         }
     }
 
+    gravar() {
+        this.gravacao.push(this.sonsParaTocarLista.slice())
+    }
+
+
+    trocarGravarAtivado() {
+        this.gravarAtivado = !this.gravarAtivado
+        this.pararDeContar()
+    }
 
     //Compasso
     iniciarContagem = () => {
-        this.tocando=true
+        this.tocando = true
         this.tocandoCompasso = setInterval(() => {
-            //tirar para ver em qual tempo está no console
-            //console.log(this.tempoDoCompasso)
             if (this.tempoDoCompasso < 4) {
                 this.tempoDoCompasso++
             } else {
+                if (this.gravarAtivado) {
+                    this.gravar()
+                }
                 this.pararInstrumentos()
                 this.tocarInstrumentos()
                 this.tempoDoCompasso = 1
                 this.dispararTempoUm()
                 this.conferirSeTemInstrumentos()
+                console.log(this.gravacao)
             }
         }, 1000)
     }
 
-    pararDeContar = ()=>{
+    pararDeContar = () => {
         console.log('parou')
         clearInterval(this.tocandoCompasso)
-        this.tocando=false
+        this.tocando = false
     }
 }
 

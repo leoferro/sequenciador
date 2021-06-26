@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import FileiraBotoes from './FileiraBotoes';
+import BotaoGravar from './BotaoGravar';
 
 const CorpoInstr = (props) => {
     props.tempo.iniciarContagem()
@@ -16,6 +17,9 @@ const CorpoInstr = (props) => {
             }
         ]
         }>
+            <BotaoGravar 
+                tempo={props.tempo}
+            />
             <FileiraBotoes
                 sons={sons1}
                 tempo={props.tempo}
